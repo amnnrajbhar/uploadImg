@@ -27,7 +27,8 @@ export interface S3File {
   providedIn: 'root'
 })
 export class UploadService {
-  private readonly backendUrl = 'http://localhost:3000';
+  // private readonly backendUrl = 'http://localhost:3000';
+  private readonly backendUrl = 'https://uploadimg-1.onrender.com';
   private progressSubject = new Subject<UploadProgress>();
 
   constructor(private http: HttpClient) {}
@@ -79,5 +80,9 @@ export class UploadService {
 
   getUploadedFiles(): Observable<{files: S3File[]}> {
     return this.http.get<{files: S3File[]}>(`${this.backendUrl}/files`);
+  }
+
+  deleteFile(key: string): Observable<any> {
+    return this.http.delete(`${this.backendUrl}/files/${encodeURIComponent(key)}`);
   }
 }
